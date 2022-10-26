@@ -53,6 +53,9 @@ int main(int argc, char **argv) {
         int msqid = 0;
         const int key_id = 1234;
 
+	//random values needed for system times
+	srand((unsigned) getpid());
+
 	//Setup clock
 	sclock clock;
 	clock.seconds = 0;
@@ -103,35 +106,47 @@ int main(int argc, char **argv) {
 	//Setup id for message queue
         msqid = msgget(key, 0644|IPC_CREAT);
 
-	//Send message to message queue
-	/*if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
-		perror("msgsnd : parent.c ");
-		exit(1);
-	}*/
-
 	//For wait command
 	pid_t wpid;
-	int status = 0;		
-                if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
-                        perror("msgsnd");
-                        exit(1);
-                }        
-		//fork child and send arguments
-		//pid_t childPid = fork(); // This is where the child process splits from the parent
+	int status = 0;
+	int runningTotalChildProcesses = 0;
+	clock.seconds += 1;
+	while(runningTotalChildProcesses != totalChildProcesses) {	
+		
+		fprintf(out_file, "OSS: Generating child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
                 if (fork() == 0) {
 			char* args[] = {"./child", 0};
-                        //char* args[] = {"./child", childNumber, clock_Increment, 0};
 			execlp(args[0],args[0],args[1]);
-                        //execlp(args[0],args[0],args[1],args[2], args[3]);
                         fprintf(stderr,"Exec failed, terminating\n");
                         exit(1);
                 }
+		int dispatchTime = (rand() % 400);
+		incrementClock(&clock, dispatchTime);
+		fprintf(out_file, "OSS: Dispatching child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
+		fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
+		
+		if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
+                        perror("msgsnd");
+                        exit(1);
+                }
+
 		while ((wpid = wait(&status)) > 0);
 		msgrcv(msqid, &buf, sizeof(buf), 1, 0);
-		fprintf(out_file, "Message recieved from child %d was %d\n", childProcessCounter, buf.mint);
+		if (buf.mint < 0) {
+			fprintf(out_file, "OSS: Child %d sent termination message. Child used :%d nanoSeconds\n", runningTotalChildProcesses, (buf.mint* -1));
+		} else if (buf.mint == 1000) {
+			fprintf(out_file, "OSS: Child %d used all the time available.\n", runningTotalChildProcesses);
+		} else {
+			fprintf(out_file, "OSS: Child %d didn't use all the time available.\n", runningTotalChildProcesses);
+			fprintf(out_file, "OSS: Pugging child %d into blocked queue..\n", runningTotalChildProcesses);
+		}
 		incrementClock(&clock, buf.mint);
-	//wait for all child processes to finish
-	printf("Message recieved from child %d was %d\n", childProcessCounter, buf.mint);
+
+		//wait for all child processes to finish
+		printf("Message recieved from child %d was %d\n", childProcessCounter, buf.mint);
+		runningTotalChildProcesses++;
+	}
+
 	fprintf(out_file, "Clock value in seconds is: %d : NanoSeconds is : %d\nParent is now ending\n", clock.seconds, clock.nanoSeconds);	
         printf("Clock value in seconds is: %d : NanoSeconds is : %d\nParent is now ending\n",clock.seconds, clock.nanoSeconds);
 	
