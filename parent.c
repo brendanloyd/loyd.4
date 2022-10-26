@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
         const int key_id = 1234;
 
 	//random values needed for system times
-	srand((unsigned) getpid());
+	srand(time(NULL));
 
 	//Setup clock
 	sclock clock;
@@ -112,9 +112,9 @@ int main(int argc, char **argv) {
 	int runningTotalChildProcesses = 0;
 	clock.seconds += 1;
 	while(runningTotalChildProcesses != totalChildProcesses) {	
-		
 		fprintf(out_file, "OSS: Generating child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
-                if (fork() == 0) {
+                pid_t childPid = fork();
+		if (childPid == 0) {
 			char* args[] = {"./child", 0};
 			execlp(args[0],args[0],args[1]);
                         fprintf(stderr,"Exec failed, terminating\n");
@@ -129,11 +129,11 @@ int main(int argc, char **argv) {
                         perror("msgsnd");
                         exit(1);
                 }
-
-		while ((wpid = wait(&status)) > 0);
+		wait(NULL);
+		//while ((wpid = wait(&status)) > 0);
 		msgrcv(msqid, &buf, sizeof(buf), 1, 0);
 		if (buf.mint < 0) {
-			fprintf(out_file, "OSS: Child %d sent termination message. Child used :%d nanoSeconds\n", runningTotalChildProcesses, (buf.mint* -1));
+			fprintf(out_file, "OSS: Child %d sent termination message using :%d nanoSeconds\n", runningTotalChildProcesses, (buf.mint* -1));
 		} else if (buf.mint == 1000) {
 			fprintf(out_file, "OSS: Child %d used all the time available.\n", runningTotalChildProcesses);
 		} else {
@@ -143,12 +143,10 @@ int main(int argc, char **argv) {
 		incrementClock(&clock, buf.mint);
 
 		//wait for all child processes to finish
-		printf("Message recieved from child %d was %d\n", childProcessCounter, buf.mint);
 		runningTotalChildProcesses++;
 	}
-
-	fprintf(out_file, "Clock value in seconds is: %d : NanoSeconds is : %d\nParent is now ending\n", clock.seconds, clock.nanoSeconds);	
-        printf("Clock value in seconds is: %d : NanoSeconds is : %d\nParent is now ending\n",clock.seconds, clock.nanoSeconds);
+	while ((wpid = wait(&status)) > 0);
+	fprintf(out_file, "OSS: Final clock value in seconds is: %d : NanoSeconds is : %d\n", clock.seconds, clock.nanoSeconds);	
 	
 	//detach message queue memory	
 	if (msgctl(msqid, IPC_RMID, NULL) == -1) {

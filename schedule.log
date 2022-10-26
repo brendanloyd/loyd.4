@@ -1,19 +1,19 @@
 OSS: Generating child 0 at second :1 nanoSecond:0
-OSS: Dispatching child 0 at second :1 nanoSecond:298
-OSS: Total dispatching time in nanoSeconds:298
-OSS: Child 0 sent termination message. Child used :530 nanoSeconds
-OSS: Generating child 1 at second :1 nanoSecond:828
-OSS: Dispatching child 1 at second :1 nanoSecond:1016
-OSS: Total dispatching time in nanoSeconds:188
+OSS: Dispatching child 0 at second :1 nanoSecond:310
+OSS: Total dispatching time in nanoSeconds:310
+OSS: Child 0 didn't use all the time available.
+OSS: Pugging child 0 into blocked queue..
+OSS: Generating child 1 at second :1 nanoSecond:586
+OSS: Dispatching child 1 at second :1 nanoSecond:708
+OSS: Total dispatching time in nanoSeconds:122
 OSS: Child 1 used all the time available.
-OSS: Generating child 2 at second :1 nanoSecond:2016
-OSS: Dispatching child 2 at second :1 nanoSecond:2157
-OSS: Total dispatching time in nanoSeconds:141
+OSS: Generating child 2 at second :1 nanoSecond:1708
+OSS: Dispatching child 2 at second :1 nanoSecond:1762
+OSS: Total dispatching time in nanoSeconds:54
 OSS: Child 2 didn't use all the time available.
 OSS: Pugging child 2 into blocked queue..
-OSS: Generating child 3 at second :1 nanoSecond:2348
-OSS: Dispatching child 3 at second :1 nanoSecond:2394
-OSS: Total dispatching time in nanoSeconds:46
+OSS: Generating child 3 at second :1 nanoSecond:2208
+OSS: Dispatching child 3 at second :1 nanoSecond:2261
+OSS: Total dispatching time in nanoSeconds:53
 OSS: Child 3 used all the time available.
-Clock value in seconds is: 1 : NanoSeconds is : 3394
-Parent is now ending
+OSS: Final clock value in seconds is: 1 : NanoSeconds is : 3261
