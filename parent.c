@@ -19,6 +19,15 @@ void timeoutSigHandler(int sig) {
 
 }
 
+void incrementClock(sclock *clock, int nanoIncrement) {
+	if(nanoIncrement < 0) {
+		nanoIncrement *= -1;
+		clock->nanoSeconds += nanoIncrement;
+	} else {
+		clock->nanoSeconds += nanoIncrement;
+	}
+}
+
 int main(int argc, char **argv) {
 
 	//Variables for handling Getopt options and loop to run child processes
@@ -103,21 +112,13 @@ int main(int argc, char **argv) {
 	//For wait command
 	pid_t wpid;
 	int status = 0;		
-	for (childProcessCounter = 0; childProcessCounter < totalChildProcesses; childProcessCounter++) {
                 if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
                         perror("msgsnd");
                         exit(1);
                 }        
-		//wait if max children are running at one time
-		if(childProcessCounter == childrenRunningAtOneTime) {
-			while ((wpid = wait(&status)) > 0);
-			childrenRunningAtOneTime *= 2;
-		}
-
 		//fork child and send arguments
-		pid_t childPid = fork(); // This is where the child process splits from the parent
-               // sprintf(childNumber, "%d",(childProcessCounter + 1));
-                if (childPid == 0) {
+		//pid_t childPid = fork(); // This is where the child process splits from the parent
+                if (fork() == 0) {
 			char* args[] = {"./child", 0};
                         //char* args[] = {"./child", childNumber, clock_Increment, 0};
 			execlp(args[0],args[0],args[1]);
@@ -125,12 +126,12 @@ int main(int argc, char **argv) {
                         fprintf(stderr,"Exec failed, terminating\n");
                         exit(1);
                 }
+		while ((wpid = wait(&status)) > 0);
 		msgrcv(msqid, &buf, sizeof(buf), 1, 0);
-		printf("Message recieved from child %d was %d", childProcessCounter, buf.mint);
-        }
-
+		fprintf(out_file, "Message recieved from child %d was %d\n", childProcessCounter, buf.mint);
+		incrementClock(&clock, buf.mint);
 	//wait for all child processes to finish
-	while ((wpid = wait(&status)) > 0);
+	printf("Message recieved from child %d was %d\n", childProcessCounter, buf.mint);
 	fprintf(out_file, "Clock value in seconds is: %d : NanoSeconds is : %d\nParent is now ending\n", clock.seconds, clock.nanoSeconds);	
         printf("Clock value in seconds is: %d : NanoSeconds is : %d\nParent is now ending\n",clock.seconds, clock.nanoSeconds);
 	
@@ -140,10 +141,5 @@ int main(int argc, char **argv) {
       		exit(1);
    	}
 	
-	//detach from the shared memory segment
-	//shmdt(shared_memory);
-
-	//free shared memory segment shm_id
-	//shmctl( segment_id, IPC_RMID, NULL );
 	return EXIT_SUCCESS; 
 }
