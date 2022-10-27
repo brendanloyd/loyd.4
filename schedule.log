@@ -1,19 +1,21 @@
 OSS: Generating child 0 at second :1 nanoSecond:0
-OSS: Dispatching child 0 at second :1 nanoSecond:310
-OSS: Total dispatching time in nanoSeconds:310
-OSS: Child 0 didn't use all the time available.
-OSS: Pugging child 0 into blocked queue..
-OSS: Generating child 1 at second :1 nanoSecond:586
-OSS: Dispatching child 1 at second :1 nanoSecond:708
-OSS: Total dispatching time in nanoSeconds:122
+OSS: Dispatching child 0 at second :1 nanoSecond:109
+OSS: Total dispatching time in nanoSeconds:109
+OSS: Child 0 used all the time available.
+OSS: Number of processes in blocked queue is: 1
+OSS: Generating child 1 at second :1 nanoSecond:1109
+OSS: Dispatching child 1 at second :1 nanoSecond:1216
+OSS: Total dispatching time in nanoSeconds:107
 OSS: Child 1 used all the time available.
-OSS: Generating child 2 at second :1 nanoSecond:1708
-OSS: Dispatching child 2 at second :1 nanoSecond:1762
-OSS: Total dispatching time in nanoSeconds:54
-OSS: Child 2 didn't use all the time available.
-OSS: Pugging child 2 into blocked queue..
-OSS: Generating child 3 at second :1 nanoSecond:2208
-OSS: Dispatching child 3 at second :1 nanoSecond:2261
-OSS: Total dispatching time in nanoSeconds:53
+OSS: Number of processes in blocked queue is: 2
+OSS: Generating child 2 at second :1 nanoSecond:2216
+OSS: Dispatching child 2 at second :1 nanoSecond:2500
+OSS: Total dispatching time in nanoSeconds:284
+OSS: Child 2 used all the time available.
+OSS: Number of processes in blocked queue is: 3
+OSS: Generating child 3 at second :1 nanoSecond:3500
+OSS: Dispatching child 3 at second :1 nanoSecond:3740
+OSS: Total dispatching time in nanoSeconds:240
 OSS: Child 3 used all the time available.
-OSS: Final clock value in seconds is: 1 : NanoSeconds is : 3261
+OSS: Number of processes in blocked queue is: 4
+OSS: Final clock value in seconds is: 1 : NanoSeconds is : 4740

@@ -1,4 +1,5 @@
 #include "parent.h"
+#include "queue.c"
 
 //signal handler function to kill program if ctrl c is encountered
 void terminateSigHandler(int sig) {
@@ -136,9 +137,13 @@ int main(int argc, char **argv) {
 			fprintf(out_file, "OSS: Child %d sent termination message using :%d nanoSeconds\n", runningTotalChildProcesses, (buf.mint* -1));
 		} else if (buf.mint == 1000) {
 			fprintf(out_file, "OSS: Child %d used all the time available.\n", runningTotalChildProcesses);
+			push(childPid);
+                        fprintf(out_file, "OSS: Number of processes in blocked queue is: %d\n", getlog());
 		} else {
 			fprintf(out_file, "OSS: Child %d didn't use all the time available.\n", runningTotalChildProcesses);
 			fprintf(out_file, "OSS: Pugging child %d into blocked queue..\n", runningTotalChildProcesses);
+			push(childPid);
+			fprintf(out_file, "OSS: Number of processes in blocked queue is: %d\n", getlog());
 		}
 		incrementClock(&clock, buf.mint);
 
