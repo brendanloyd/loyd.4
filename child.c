@@ -13,6 +13,7 @@ int main(int argc, char** argv) {
 	key = ftok("./parent.c", key_id);
         msqid = msgget(key, 0644|IPC_CREAT);
 	
+	
 	// recieve message if there is one, if not wait.
 	msgrcv(msqid, &buf, sizeof(buf), 1, 0);
 	

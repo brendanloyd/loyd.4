@@ -112,16 +112,29 @@ int main(int argc, char **argv) {
 	int status = 0;
 	int runningTotalChildProcesses = 0;
 	clock.seconds += 1;
-	while(runningTotalChildProcesses != totalChildProcesses) {	
+	while(runningTotalChildProcesses != totalChildProcesses) {
+	//while(runningTotalChildProcesses != totalChildProcesses || isNotEmpty()) {	
+		pid_t childPid;
+		int dispatchTime;
+		
+		/*if ((childPid = pop()) == -1) {
+			fprintf(out_file, "OSS: Generating child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
+                	childPid = fork();
+		} else {
+			//fprintf(out_file, "OSS: Popping process %d from queue.\n", getpid());
+			dispatchTime = (rand() % 400);
+			fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
+		}*/
 		fprintf(out_file, "OSS: Generating child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
-                pid_t childPid = fork();
+                childPid = fork();
 		if (childPid == 0) {
 			char* args[] = {"./child", 0};
 			execlp(args[0],args[0],args[1]);
                         fprintf(stderr,"Exec failed, terminating\n");
                         exit(1);
                 }
-		int dispatchTime = (rand() % 400);
+		
+		dispatchTime = (rand() % 400);
 		incrementClock(&clock, dispatchTime);
 		fprintf(out_file, "OSS: Dispatching child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
 		fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
