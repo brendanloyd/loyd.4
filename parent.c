@@ -123,33 +123,21 @@ int main(int argc, char **argv) {
                         exit(1);
                 }	
 	}
+	
+	if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
+        	perror("msgsnd");
+                exit(1);
+        }	
 
 	while(time(NULL) < endwait && totalChildProcesses > runningTotalChildProcesses) {
 		runningTotalChildProcesses++;
-		pid_t childPid;
-		int dispatchTime;
-		
-		/*if ((childPid = pop()) == -1) {
-			fprintf(out_file, "OSS: Generating child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
-                	childPid = fork();
-		} else {
-			//fprintf(out_file, "OSS: Popping process %d from queue.\n", getpid());
-			dispatchTime = (rand() % 400);
-			fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
-		}*/
 		fprintf(out_file, "OSS: Dispatching child at second :%d nanoSecond:%d\n", clock.seconds, clock.nanoSeconds);
-		//childPid = wait(NULL);
-		dispatchTime = (rand() % 400);
-		incrementClock(&clock, dispatchTime);
-		//fprintf(out_file, "OSS: Dispatching child at second :%d nanoSecond:%d\n", clock.seconds, clock.nanoSeconds);
+		int dispatchTime = (rand() % 400);
+                incrementClock(&clock, dispatchTime);
 		fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
+
+		pid_t childPid = wait(NULL);
 		
-		if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
-                        perror("msgsnd");
-                        exit(1);
-                }
-		childPid = wait(NULL);
-		//while ((wpid = wait(&status)) > 0);
 		msgrcv(msqid, &buf, sizeof(buf), 1, 0);
 		if (buf.mint < 0) {
 			fprintf(out_file, "OSS: Child :%d sent termination message using :%d nanoSeconds\n", childPid, (buf.mint* -1));
@@ -163,7 +151,12 @@ int main(int argc, char **argv) {
 			push(childPid);
 			fprintf(out_file, "OSS: Number of processes in blocked queue is: %d\n", getlog());
 		}
+		
 		incrementClock(&clock, buf.mint);
+                if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
+                        perror("msgsnd");
+                        exit(1);
+                }
 
 	}
 	while ((wpid = wait(&status)) > 0);

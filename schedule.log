@@ -1,13 +1,17 @@
 OSS: Dispatching child at second :1 nanoSecond:0
-OSS: Total dispatching time in nanoSeconds:22
-OSS: Child :32002 sent termination message using :298 nanoSeconds
-OSS: Dispatching child at second :1 nanoSecond:320
-OSS: Total dispatching time in nanoSeconds:352
-OSS: Child :32003 sent termination message using :298 nanoSeconds
-OSS: Dispatching child at second :1 nanoSecond:970
-OSS: Total dispatching time in nanoSeconds:327
-OSS: Child :32004 sent termination message using :298 nanoSeconds
-OSS: Dispatching child at second :1 nanoSecond:1595
-OSS: Total dispatching time in nanoSeconds:119
-OSS: Child :32005 sent termination message using :953 nanoSeconds
-OSS: Final clock value in seconds is: 1 : NanoSeconds is : 2667
+OSS: Total dispatching time in nanoSeconds:165
+OSS: Child :482 used all the time available.
+OSS: Number of processes in blocked queue is: 1
+OSS: Dispatching child at second :1 nanoSecond:1165
+OSS: Total dispatching time in nanoSeconds:54
+OSS: Child :483 used all the time available.
+OSS: Number of processes in blocked queue is: 2
+OSS: Dispatching child at second :1 nanoSecond:2219
+OSS: Total dispatching time in nanoSeconds:390
+OSS: Child :484 used all the time available.
+OSS: Number of processes in blocked queue is: 3
+OSS: Dispatching child at second :1 nanoSecond:3609
+OSS: Total dispatching time in nanoSeconds:54
+OSS: Child :485 used all the time available.
+OSS: Number of processes in blocked queue is: 4
+OSS: Final clock value in seconds is: 1 : NanoSeconds is : 4663
