@@ -112,8 +112,20 @@ int main(int argc, char **argv) {
 	int status = 0;
 	int runningTotalChildProcesses = 0;
 	clock.seconds += 1;
-	while(runningTotalChildProcesses != totalChildProcesses) {
-	//while(runningTotalChildProcesses != totalChildProcesses || isNotEmpty()) {	
+	time_t endwait = time(NULL) + 3;
+
+	int i;
+	for(i = 0; i < totalChildProcesses; i++) {
+                if (fork() == 0) {
+                        char* args[] = {"./child", 0};
+                        execlp(args[0],args[0],args[1]);
+                        fprintf(stderr,"Exec failed, terminating\n");
+                        exit(1);
+                }	
+	}
+
+	while(time(NULL) < endwait && totalChildProcesses > runningTotalChildProcesses) {
+		runningTotalChildProcesses++;
 		pid_t childPid;
 		int dispatchTime;
 		
@@ -125,43 +137,34 @@ int main(int argc, char **argv) {
 			dispatchTime = (rand() % 400);
 			fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
 		}*/
-		fprintf(out_file, "OSS: Generating child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
-                childPid = fork();
-		if (childPid == 0) {
-			char* args[] = {"./child", 0};
-			execlp(args[0],args[0],args[1]);
-                        fprintf(stderr,"Exec failed, terminating\n");
-                        exit(1);
-                }
-		
+		fprintf(out_file, "OSS: Dispatching child at second :%d nanoSecond:%d\n", clock.seconds, clock.nanoSeconds);
+		//childPid = wait(NULL);
 		dispatchTime = (rand() % 400);
 		incrementClock(&clock, dispatchTime);
-		fprintf(out_file, "OSS: Dispatching child %d at second :%d nanoSecond:%d\n", runningTotalChildProcesses, clock.seconds, clock.nanoSeconds);
+		//fprintf(out_file, "OSS: Dispatching child at second :%d nanoSecond:%d\n", clock.seconds, clock.nanoSeconds);
 		fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
 		
 		if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
                         perror("msgsnd");
                         exit(1);
                 }
-		wait(NULL);
+		childPid = wait(NULL);
 		//while ((wpid = wait(&status)) > 0);
 		msgrcv(msqid, &buf, sizeof(buf), 1, 0);
 		if (buf.mint < 0) {
-			fprintf(out_file, "OSS: Child %d sent termination message using :%d nanoSeconds\n", runningTotalChildProcesses, (buf.mint* -1));
+			fprintf(out_file, "OSS: Child :%d sent termination message using :%d nanoSeconds\n", childPid, (buf.mint* -1));
 		} else if (buf.mint == 1000) {
-			fprintf(out_file, "OSS: Child %d used all the time available.\n", runningTotalChildProcesses);
+			fprintf(out_file, "OSS: Child :%d used all the time available.\n", childPid);
 			push(childPid);
                         fprintf(out_file, "OSS: Number of processes in blocked queue is: %d\n", getlog());
 		} else {
-			fprintf(out_file, "OSS: Child %d didn't use all the time available.\n", runningTotalChildProcesses);
-			fprintf(out_file, "OSS: Pugging child %d into blocked queue..\n", runningTotalChildProcesses);
+			fprintf(out_file, "OSS: Child :%d didn't use all the time available.\n", childPid);
+			fprintf(out_file, "OSS: Pugging child :%d into blocked queue..\n", childPid);
 			push(childPid);
 			fprintf(out_file, "OSS: Number of processes in blocked queue is: %d\n", getlog());
 		}
 		incrementClock(&clock, buf.mint);
 
-		//wait for all child processes to finish
-		runningTotalChildProcesses++;
 	}
 	while ((wpid = wait(&status)) > 0);
 	fprintf(out_file, "OSS: Final clock value in seconds is: %d : NanoSeconds is : %d\n", clock.seconds, clock.nanoSeconds);	
