@@ -38,14 +38,17 @@ void push(pid_t childPidToPush) {
 }
 
 int isNotEmpty() {
-	if(headptr = NULL) {
+	if(headptr == NULL) {
 	return 0;
 	}
 	return 1;
 }
 
 pid_t pop() {
-	pid_t toPop = headptr->childPid;
+
+	pid_t toPop;
+	toPop = (sizeof(headptr->childPid) + 1);
+	toPop = headptr->childPid;
  	queue *nextNode = headptr;
  	nextNode = headptr->next;
         free(headptr);

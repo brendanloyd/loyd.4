@@ -128,15 +128,23 @@ int main(int argc, char **argv) {
         	perror("msgsnd");
                 exit(1);
         }	
-
+	pid_t childPid;
 	while(time(NULL) < endwait && totalChildProcesses > runningTotalChildProcesses) {
 		runningTotalChildProcesses++;
+		/*if(isNotEmpty()) {
+			printf("queue has %d processes in it\n", getlog());
+			childPid = pop();
+			char* args[] = {"./child", 0};
+                        execlp(args[0],args[0],args[1]);
+			printf("queue has %d processes after pop\n", getlog());
+		}*/
+
 		fprintf(out_file, "OSS: Dispatching child at second :%d nanoSecond:%d\n", clock.seconds, clock.nanoSeconds);
 		int dispatchTime = (rand() % 400);
                 incrementClock(&clock, dispatchTime);
 		fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
 
-		pid_t childPid = wait(NULL);
+		childPid = wait(NULL);
 		
 		msgrcv(msqid, &buf, sizeof(buf), 1, 0);
 		if (buf.mint < 0) {
@@ -145,11 +153,13 @@ int main(int argc, char **argv) {
 			fprintf(out_file, "OSS: Child :%d used all the time available.\n", childPid);
 			push(childPid);
                         fprintf(out_file, "OSS: Number of processes in blocked queue is: %d\n", getlog());
+			//runningTotalChildProcesses--;
 		} else {
 			fprintf(out_file, "OSS: Child :%d didn't use all the time available.\n", childPid);
 			fprintf(out_file, "OSS: Pugging child :%d into blocked queue..\n", childPid);
 			push(childPid);
 			fprintf(out_file, "OSS: Number of processes in blocked queue is: %d\n", getlog());
+			//runningTotalChildProcesses--;
 		}
 		
 		incrementClock(&clock, buf.mint);
