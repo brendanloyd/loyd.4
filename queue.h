@@ -14,7 +14,7 @@ static queue *headptr;
 static queue *tailptr;
 
 void push(pid_t);
-pid_t pop(void);
+int pop(void);
 int getlog(void);
 
 #endif

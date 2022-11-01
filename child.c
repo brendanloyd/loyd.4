@@ -12,16 +12,16 @@ int main(int argc, char** argv) {
 	//setup message queue	
 	key = ftok("./parent.c", key_id);
         msqid = msgget(key, 0644|IPC_CREAT);
-	
-	
+	int choice;	
+	do {	
 	// recieve message if there is one, if not wait.
 	msgrcv(msqid, &buf, sizeof(buf), 1, 0);
 	
 	//announce entry into critical section then go to sleep;
-	int choice = (rand() % 1000);
+	choice = (rand() % 1000);
 	if(choice < 400) {
 		buf.mint = 1000;	
-	} else if (choice > 400 && choice < 800) {
+	} else if (choice > 399 && choice < 800) {
 		buf.mint = (rand() % 1000);
 	} else {
 		buf.mint = ((rand() % 1000) * -1);
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
                 perror("msgsnd");
                 exit(1);
         }
-	
+	}while(choice > 799);
 	//detach shared memory and return success
 	return EXIT_SUCCESS;
 }

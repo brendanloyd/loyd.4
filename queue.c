@@ -44,7 +44,7 @@ int isNotEmpty() {
 	return 1;
 }
 
-pid_t pop() {
+int pop() {
 
 	pid_t toPop;
 	toPop = (sizeof(headptr->childPid) + 1);
