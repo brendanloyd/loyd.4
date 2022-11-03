@@ -32,7 +32,7 @@ void incrementClock(sclock *clock, int nanoIncrement) {
 int main(int argc, char **argv) {
 
 	//Variables for handling Getopt options and loop to run child processes
-	int option, totalChildProcesses = 4, clockIncrement = 1;
+	int option, totalChildProcesses = 3, clockIncrement = 1;
 	int childrenRunningAtOneTime = 2;
         int childProcessCounter;
 
@@ -137,7 +137,7 @@ int main(int argc, char **argv) {
 			childPid = pop();
 			popAChild += 2000;
 			fprintf(out_file, "OSS: Popping a child process pid: %d from queue\n", childPid);
-			//char* args[] = {"./child", 0};
+			fprintf(out_file, "OSS: Number of processes in queue is: %d\n", getlog());
 		}
 		if(clock.nanoSeconds < releaseChildren) {
 	       		for(i = 0; i < 17; i++) {
