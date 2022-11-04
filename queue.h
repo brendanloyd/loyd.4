@@ -12,9 +12,13 @@ typedef struct queue_struct {
 
 static queue *headptr;
 static queue *tailptr;
+static queue *headptrBlocked;
+static queue *tailptrBlocked;
 
-void push(pid_t);
-int pop(void);
-int getlog(void);
-
+void pushReady(pid_t);
+int popReady(void);
+int getlogReady(void);
+void pushBlocked(pid_t);
+int popBlocked(void);
+int getlogBlocked(void);
 #endif

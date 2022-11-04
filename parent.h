@@ -16,10 +16,14 @@ void terminateSigHandler(int);
 void timeoutSigHandler(int); 
 
 #define PERMS 0644
-#define BUFF_SZ sizeof ( int )
-
+#define SHMKEY 859047
 int* mem_ptr;
 extern int errno;
+
+typedef struct pcb {
+	pid_t child;
+	int nanoSecondsOnCore;
+} pcb;
 
 typedef struct my_msgbuf {
 	long mtype;
@@ -30,3 +34,5 @@ typedef struct sclock {
 	int seconds;
 	int nanoSeconds;
 } sclock;
+
+#define BUFF_SZ sizeof ( pcb )

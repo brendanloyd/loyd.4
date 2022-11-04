@@ -28,6 +28,17 @@ void incrementClock(sclock *clock, int nanoIncrement) {
 		clock->nanoSeconds += nanoIncrement;
 	}
 }
+void forkChildren(int num) {
+        int i;
+	for(i = 0; i < num; i++) {
+                if (fork() == 0) {
+                        char* args[] = {"./child", 0};
+                        execlp(args[0],args[0],args[1]);
+                        fprintf(stderr,"Exec failed, terminating\n");
+                        exit(1);
+                }
+        }
+}
 
 int main(int argc, char **argv) {
 
@@ -107,52 +118,46 @@ int main(int argc, char **argv) {
 	//Setup id for message queue
         msqid = msgget(key, 0644|IPC_CREAT);
 
+	/*int segment_id = shmget ( SHMKEY, BUFF_SZ*18, 0777 | IPC_CREAT);
+	if (segment_id == -1) {
+		perror("Error: parent.c : shared memory failed.");
+	}
+
+	pcb processControlBlock[18] = (pcb*)(shmat(segment_id, 0, 0));
+	if (processControlBlock == NULL) {
+		perror("Error: parent.c : shared memory attach failed.");
+	} */
+
 	//For wait command
 	pid_t wpid;
 	int status = 0;
-	int runningTotalChildProcesses = 0;
+	int totalChildren = 0;
 	clock.seconds += 1;
 	time_t endwait = time(NULL) + 3;
-
-	int i;
-	for(i = 0; i < 17; i++) {
-                if (fork() == 0) {
-                        char* args[] = {"./child", 0};
-                        execlp(args[0],args[0],args[1]);
-                        fprintf(stderr,"Exec failed, terminating\n");
-                        exit(1);
-                }	
-	}
-	
+	forkChildren(20);
+	totalChildren += 20;
 	if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
         	perror("msgsnd");
                 exit(1);
         }
-	int popAChild = 2000;
-	int releaseChildren = 15000;	
+	int popAChild = 9000;
+	int releaseChildren = 20000;
+	int pushBlockedChildToReady = 15000;
 	pid_t childPid;
-	while(time(NULL) < endwait && totalChildProcesses > runningTotalChildProcesses) {
-		runningTotalChildProcesses++;
-		if(isNotEmpty() && clock.nanoSeconds > popAChild) {
-			childPid = pop();
-			popAChild += 2000;
+	while(time(NULL) < endwait && totalChildren < 100) {
+		if(isNotEmptyReady() && clock.nanoSeconds > popAChild) {
+			childPid = popReady();
+			popAChild += 7000;
 			fprintf(out_file, "OSS: Popping a child process pid: %d from queue\n", childPid);
-			fprintf(out_file, "OSS: Number of processes in queue is: %d\n", getlog());
-		}
-		if(clock.nanoSeconds < releaseChildren) {
-	       		for(i = 0; i < 17; i++) {
-                		if (fork() == 0) {
-                        		char* args[] = {"./child", 0};
-                        		execlp(args[0],args[0],args[1]);
-                        		fprintf(stderr,"Exec failed, terminating\n");
-                        		exit(1);
-                		}
-        		}
-			releaseChildren += 15000;
+		} else if(isNotEmptyBlocked() && clock.nanoSeconds > pushBlockedChildToReady) {
+			childPid = popBlocked();
+			pushReady(childPid);
+			fprintf(out_file, "OSS: Popping a child process pid: %d from blocked queue and pushing to ready queue\n", childPid);
+			pushBlockedChildToReady += 15000;
 		}
 
 		fprintf(out_file, "OSS: Dispatching child at second :%d nanoSecond:%d\n", clock.seconds, clock.nanoSeconds);
-		int dispatchTime = (rand() % 400);
+		int dispatchTime = (rand() % 10000) + 100;
                 incrementClock(&clock, dispatchTime);
 		fprintf(out_file, "OSS: Total dispatching time in nanoSeconds:%d\n", dispatchTime);
 
@@ -163,16 +168,12 @@ int main(int argc, char **argv) {
 			fprintf(out_file, "OSS: Child :%d sent termination message using :%d nanoSeconds\n", childPid, (buf.mint* -1));
 		} else if (buf.mint == 1000) {
 			fprintf(out_file, "OSS: Child :%d used all the time available.\n", childPid);
-			push(childPid);
-			fprintf(out_file, "OSS: Pushing child :%d into queue..\n", childPid);
-                        fprintf(out_file, "OSS: Number of processes in queue is: %d\n", getlog());
-			runningTotalChildProcesses--;
+			pushReady(childPid);
+			fprintf(out_file, "OSS: Pushing child :%d into ready queue..\n", childPid);
 		} else {
 			fprintf(out_file, "OSS: Child :%d didn't use all the time available.\n", childPid);
-			push(childPid);
-			fprintf(out_file, "OSS: Pushing child :%d into queue..\n", childPid);
-			fprintf(out_file, "OSS: Number of processes in queue is: %d\n", getlog());
-			runningTotalChildProcesses--;
+			pushBlocked(childPid);
+			fprintf(out_file, "OSS: Pushing child :%d into blocked queue..\n", childPid);
 		}
 		
 		incrementClock(&clock, buf.mint);
@@ -180,6 +181,11 @@ int main(int argc, char **argv) {
                         perror("msgsnd");
                         exit(1);
                 }
+		if(clock.nanoSeconds > releaseChildren) {
+			forkChildren(10);
+			totalChildren += 10;
+			releaseChildren += 20000;
+		}
 
 	}
 	while ((wpid = wait(&status)) > 0);

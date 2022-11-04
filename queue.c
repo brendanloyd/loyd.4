@@ -16,8 +16,10 @@
 
 static queue *headptr = NULL;
 static queue *tailptr = NULL;
+static queue *headptrBlocked = NULL;
+static queue *tailptrBlocked = NULL;
 
-void push(pid_t childPidToPush) {
+void pushReady(pid_t childPidToPush) {
 	queue *newnode;
 	int nodesize;
 	nodesize = (sizeof(childPidToPush) + 2);
@@ -37,14 +39,41 @@ void push(pid_t childPidToPush) {
 
 }
 
-int isNotEmpty() {
+void pushBlocked(pid_t childPidToPush) {
+        queue *newnode;
+        int nodesize;
+        nodesize = (sizeof(childPidToPush) + 2);
+
+        if ((newnode = (queue *)(malloc(nodesize))) == NULL) {
+                perror("Error: addmsg ");
+                exit(-1);
+        }
+        newnode->childPid = childPidToPush;
+        newnode->next = NULL;
+
+        if (headptrBlocked == NULL)
+        headptrBlocked = newnode;
+        else
+        tailptrBlocked->next = newnode;
+        tailptrBlocked = newnode;
+
+}
+
+int isNotEmptyReady() {
 	if(headptr == NULL) {
 	return 0;
 	}
 	return 1;
 }
 
-int pop() {
+int isNotEmptyBlocked() {
+        if(headptrBlocked == NULL) {
+        return 0;
+        }
+        return 1;
+}
+
+int popReady() {
 
 	pid_t toPop;
 	toPop = (sizeof(headptr->childPid) + 1);
@@ -58,25 +87,24 @@ int pop() {
 
 }
 
-int getlog() {
-	//int stringOffset = 0, sum = 0;
+int popBlocked() {
+
+        pid_t toPop;
+        toPop = (sizeof(headptrBlocked->childPid) + 1);
+        toPop = headptrBlocked->childPid;
+        queue *nextNode = headptrBlocked;
+        nextNode = headptrBlocked->next;
+        free(headptrBlocked);
+        headptrBlocked = nextNode;
+
+        return toPop;
+
+}
+
+int getlogReady() {
 	queue *ptr = headptr;
 	int processesInQueue = 0;
-	/*char * finalString = NULL;
-	size_t stringlen;*/
-	//printf("outside get log while loop\n");	
 	while (ptr != NULL) {
-		//printf("inside get log while loop\n");
-		/*stringlen = strlen(ptr->item.string);
-		sum += stringlen;
-
-		finalString = (char*) realloc(finalString, (sum + stringOffset));
-		strncat(finalString, ptr->item.string, stringlen);
-		ptr = ptr->next;
-		stringOffset += sum;
-		
-		finalString = (char *) realloc(finalString, (sum + 1));
-		finalString[sum + 1] = 0x00;*/
 		processesInQueue++;
 		ptr = ptr->next;
 
@@ -84,29 +112,14 @@ int getlog() {
 	return processesInQueue;
 }
 
+int getlogBlocked() {
+        queue *ptr = headptrBlocked;
+        int processesInQueue = 0;
+        while (ptr != NULL) {
+                processesInQueue++;
+                ptr = ptr->next;
 
-/*
-int savelog(char *filename) {
-	FILE *out_file = fopen(filename, "a");	
-
-	if(out_file == NULL){
-		perror("Error: savelog ");
-		return -1;
-	} else {
-		fprintf(out_file, "%s", getlog());
-	} 
-
-	return 0;
+        }
+        return processesInQueue;
 }
-
-void clearlog(void) {
-	list_t * nextNode = headptr;
-	
-	while (headptr != NULL) {
-		nextNode = headptr->next;
-		free(headptr);
-		headptr = nextNode;
-	}
-}*/
-
 #endif
