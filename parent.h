@@ -22,7 +22,10 @@ extern int errno;
 
 typedef struct pcb {
 	pid_t child;
-	int nanoSecondsOnCore;
+	int totalNanoSeconds;
+	int totalTimeInSystem;
+	int lastBurst;
+	
 } pcb;
 
 typedef struct my_msgbuf {

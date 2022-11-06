@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
                 perror("msgsnd");
                 exit(1);
         }
-	}while(choice > 799);
+	}while(choice < 799);
 	//detach shared memory and return success
 	return EXIT_SUCCESS;
 }
