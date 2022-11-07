@@ -27,6 +27,10 @@ void incrementClock(sclock *clock, int nanoIncrement) {
 	} else {
 		clock->nanoSeconds += nanoIncrement;
 	}
+	if(clock->nanoSeconds > 1000000000) {
+		clock->nanoSeconds -= 1000000000;
+		clock->seconds += 1;
+	}
 }
 void forkChildren(int num) {
         int i;
