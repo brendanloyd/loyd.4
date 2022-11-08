@@ -21,7 +21,7 @@ int* mem_ptr;
 extern int errno;
 
 typedef struct pcb {
-	pid_t child;
+	int child;
 	int totalNanoSeconds;
 	int totalTimeInSystem;
 	int lastBurst;

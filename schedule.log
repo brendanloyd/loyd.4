@@ -1,132 +1,159 @@
 OSS: Dispatching child at second :1 nanoSecond:0
-OSS: Total dispatching time in nanoSeconds:7486
-OSS: Child :4238 used all the time available.
-OSS: Pushing child :4238 into ready queue..
-OSS: Dispatching child at second :1 nanoSecond:8486
-OSS: Total dispatching time in nanoSeconds:6734
-OSS: Child :4230 used all the time available.
-OSS: Pushing child :4230 into ready queue..
-OSS: Popping a child process pid: 4238 from queue
-OSS: Dispatching child at second :1 nanoSecond:16220
-OSS: Total dispatching time in nanoSeconds:1826
-OSS: Child :4239 used all the time available.
-OSS: Pushing child :4239 into ready queue..
-OSS: Popping a child process pid: 4230 from queue
-OSS: Dispatching child at second :1 nanoSecond:19046
-OSS: Total dispatching time in nanoSeconds:4851
-OSS: Child :4231 didn't use all the time available.
-OSS: Pushing child :4231 into blocked queue..
-OSS: Popping a child process pid: 4239 from queue
-OSS: Dispatching child at second :1 nanoSecond:24107
-OSS: Total dispatching time in nanoSeconds:4446
-OSS: Child :4234 didn't use all the time available.
-OSS: Pushing child :4234 into blocked queue..
-OSS: Popping a child process pid: 4231 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:29511
-OSS: Total dispatching time in nanoSeconds:531
-OSS: Child :4232 used all the time available.
-OSS: Pushing child :4232 into ready queue..
-OSS: Popping a child process pid: 4231 from queue
-OSS: Dispatching child at second :1 nanoSecond:31042
-OSS: Total dispatching time in nanoSeconds:6701
-OSS: Child :4236 sent termination message using :213 nanoSeconds
-OSS: Popping a child process pid: 4232 from queue
-OSS: Dispatching child at second :1 nanoSecond:37956
-OSS: Total dispatching time in nanoSeconds:9854
-OSS: Child :4237 didn't use all the time available.
-OSS: Pushing child :4237 into blocked queue..
-OSS: Popping a child process pid: 4234 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:48225
-OSS: Total dispatching time in nanoSeconds:1556
-OSS: Child :4240 didn't use all the time available.
-OSS: Pushing child :4240 into blocked queue..
-OSS: Popping a child process pid: 4234 from queue
-OSS: Dispatching child at second :1 nanoSecond:50348
-OSS: Total dispatching time in nanoSeconds:4448
-OSS: Child :4242 didn't use all the time available.
-OSS: Pushing child :4242 into blocked queue..
-OSS: Popping a child process pid: 4237 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:55531
-OSS: Total dispatching time in nanoSeconds:2442
-OSS: Child :4241 didn't use all the time available.
-OSS: Pushing child :4241 into blocked queue..
-OSS: Popping a child process pid: 4237 from queue
-OSS: Dispatching child at second :1 nanoSecond:58156
-OSS: Total dispatching time in nanoSeconds:7595
-OSS: Child :4243 didn't use all the time available.
-OSS: Pushing child :4243 into blocked queue..
-OSS: Popping a child process pid: 4240 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:66595
-OSS: Total dispatching time in nanoSeconds:9364
-OSS: Child :4244 didn't use all the time available.
-OSS: Pushing child :4244 into blocked queue..
-OSS: Popping a child process pid: 4240 from queue
-OSS: Dispatching child at second :1 nanoSecond:76778
-OSS: Total dispatching time in nanoSeconds:9202
-OSS: Child :4245 didn't use all the time available.
-OSS: Pushing child :4245 into blocked queue..
-OSS: Popping a child process pid: 4242 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:85996
-OSS: Total dispatching time in nanoSeconds:1334
-OSS: Child :4235 used all the time available.
-OSS: Pushing child :4235 into ready queue..
-OSS: Popping a child process pid: 4242 from queue
-OSS: Dispatching child at second :1 nanoSecond:88330
-OSS: Total dispatching time in nanoSeconds:4558
-OSS: Child :4233 didn't use all the time available.
-OSS: Pushing child :4233 into blocked queue..
-OSS: Popping a child process pid: 4235 from queue
-OSS: Dispatching child at second :1 nanoSecond:93236
-OSS: Total dispatching time in nanoSeconds:5681
-OSS: Child :4246 didn't use all the time available.
-OSS: Pushing child :4246 into blocked queue..
-OSS: Popping a child process pid: 4241 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:99416
-OSS: Total dispatching time in nanoSeconds:3688
-OSS: Child :4247 sent termination message using :585 nanoSeconds
-OSS: Popping a child process pid: 4241 from queue
-OSS: Dispatching child at second :1 nanoSecond:103689
-OSS: Total dispatching time in nanoSeconds:299
-OSS: Child :4248 didn't use all the time available.
-OSS: Pushing child :4248 into blocked queue..
-OSS: Dispatching child at second :1 nanoSecond:104530
-OSS: Total dispatching time in nanoSeconds:9806
-OSS: Child :4249 sent termination message using :933 nanoSeconds
-OSS: Popping a child process pid: 4243 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:115269
-OSS: Total dispatching time in nanoSeconds:5372
-OSS: Child :4250 used all the time available.
-OSS: Pushing child :4250 into ready queue..
-OSS: Popping a child process pid: 4243 from queue
-OSS: Dispatching child at second :1 nanoSecond:121641
-OSS: Total dispatching time in nanoSeconds:6179
-OSS: Child :4251 sent termination message using :147 nanoSeconds
-OSS: Popping a child process pid: 4250 from queue
-OSS: Dispatching child at second :1 nanoSecond:127967
-OSS: Total dispatching time in nanoSeconds:9247
-OSS: Child :4252 sent termination message using :147 nanoSeconds
-OSS: Popping a child process pid: 4244 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:137361
-OSS: Total dispatching time in nanoSeconds:3352
-OSS: Child :4253 sent termination message using :147 nanoSeconds
-OSS: Popping a child process pid: 4244 from queue
-OSS: Dispatching child at second :1 nanoSecond:140860
-OSS: Total dispatching time in nanoSeconds:6288
-OSS: Child :4254 sent termination message using :147 nanoSeconds
-OSS: Popping a child process pid: 4245 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:147295
-OSS: Total dispatching time in nanoSeconds:367
-OSS: Child :4255 sent termination message using :147 nanoSeconds
-OSS: Popping a child process pid: 4245 from queue
-OSS: Dispatching child at second :1 nanoSecond:147809
-OSS: Total dispatching time in nanoSeconds:7396
-OSS: Child :4256 sent termination message using :147 nanoSeconds
-OSS: Popping a child process pid: 4233 from blocked queue and pushing to ready queue
-OSS: Dispatching child at second :1 nanoSecond:155352
-OSS: Total dispatching time in nanoSeconds:4458
-OSS: Child :4257 sent termination message using :147 nanoSeconds
-OSS: Popping a child process pid: 4233 from queue
-OSS: Dispatching child at second :1 nanoSecond:159957
-OSS: Total dispatching time in nanoSeconds:6656
-OSS: Child :4258 sent termination message using :147 nanoSeconds
-OSS: Final clock value in seconds is: 1 : NanoSeconds is : 166760
+OSS: Total dispatching time in nanoSeconds:1773
+OSS: Child :27619 used all the time available.
+OSS: Pushing child :27619 into ready queue..
+OSS: Dispatching child at second :1 nanoSecond:2773
+OSS: Total dispatching time in nanoSeconds:1976
+OSS: Child :27623 didn't use all the time available.
+OSS: Pushing child :27623 into blocked queue..
+OSS: Dispatching child at second :1 nanoSecond:5384
+OSS: Total dispatching time in nanoSeconds:239
+OSS: Child :27626 didn't use all the time available.
+OSS: Pushing child :27626 into blocked queue..
+OSS: Dispatching child at second :1 nanoSecond:5629
+OSS: Total dispatching time in nanoSeconds:9983
+OSS: Child :27620 didn't use all the time available.
+OSS: Pushing child :27620 into blocked queue..
+OSS: Popping a child process pid: 27619 from queue
+OSS: Dispatching child at second :1 nanoSecond:16583
+OSS: Total dispatching time in nanoSeconds:3079
+OSS: Child :27633 didn't use all the time available.
+OSS: Pushing child :27633 into blocked queue..
+OSS: Popping a child process pid: 27623 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:20619
+OSS: Total dispatching time in nanoSeconds:3709
+OSS: Child :27625 sent termination message using :149 nanoSeconds
+OSS: Popping a child process pid: 27623 from queue
+OSS: Dispatching child at second :1 nanoSecond:24477
+OSS: Total dispatching time in nanoSeconds:3632
+OSS: Child :27630 used all the time available.
+OSS: Pushing child :27630 into ready queue..
+OSS: Popping a child process pid: 27630 from queue
+OSS: Dispatching child at second :1 nanoSecond:29109
+OSS: Total dispatching time in nanoSeconds:6208
+OSS: Child :27631 used all the time available.
+OSS: Pushing child :27631 into ready queue..
+OSS: Popping a child process pid: 27631 from queue
+OSS: Dispatching child at second :1 nanoSecond:36317
+OSS: Total dispatching time in nanoSeconds:8098
+OSS: Child :27618 didn't use all the time available.
+OSS: Pushing child :27618 into blocked queue..
+OSS: Popping a child process pid: 27626 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:45071
+OSS: Total dispatching time in nanoSeconds:4658
+OSS: Child :27622 didn't use all the time available.
+OSS: Pushing child :27622 into blocked queue..
+OSS: Popping a child process pid: 27626 from queue
+OSS: Dispatching child at second :1 nanoSecond:50276
+OSS: Total dispatching time in nanoSeconds:8155
+OSS: Child :27624 didn't use all the time available.
+OSS: Pushing child :27624 into blocked queue..
+OSS: Popping a child process pid: 27620 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:59289
+OSS: Total dispatching time in nanoSeconds:863
+OSS: Child :27621 didn't use all the time available.
+OSS: Pushing child :27621 into blocked queue..
+OSS: Popping a child process pid: 27620 from queue
+OSS: Dispatching child at second :1 nanoSecond:60751
+OSS: Total dispatching time in nanoSeconds:5483
+OSS: Child :27628 used all the time available.
+OSS: Pushing child :27628 into ready queue..
+OSS: Popping a child process pid: 27628 from queue
+OSS: Dispatching child at second :1 nanoSecond:67234
+OSS: Total dispatching time in nanoSeconds:4145
+OSS: Child :27632 used all the time available.
+OSS: Pushing child :27632 into ready queue..
+OSS: Popping a child process pid: 27632 from queue
+OSS: Dispatching child at second :1 nanoSecond:72379
+OSS: Total dispatching time in nanoSeconds:6458
+OSS: Child :27635 didn't use all the time available.
+OSS: Pushing child :27635 into blocked queue..
+OSS: Popping a child process pid: 27633 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:79431
+OSS: Total dispatching time in nanoSeconds:6760
+OSS: Child :27636 didn't use all the time available.
+OSS: Pushing child :27636 into blocked queue..
+OSS: Popping a child process pid: 27633 from queue
+OSS: Dispatching child at second :1 nanoSecond:86609
+OSS: Total dispatching time in nanoSeconds:8515
+OSS: Child :27637 didn't use all the time available.
+OSS: Pushing child :27637 into blocked queue..
+OSS: Popping a child process pid: 27618 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:95318
+OSS: Total dispatching time in nanoSeconds:7790
+OSS: Child :27634 used all the time available.
+OSS: Pushing child :27634 into ready queue..
+OSS: Popping a child process pid: 27618 from queue
+OSS: Dispatching child at second :1 nanoSecond:104108
+OSS: Total dispatching time in nanoSeconds:3749
+OSS: Child :27629 sent termination message using :911 nanoSeconds
+OSS: Popping a child process pid: 27634 from queue
+OSS: Dispatching child at second :1 nanoSecond:108768
+OSS: Total dispatching time in nanoSeconds:9344
+OSS: Child :27638 didn't use all the time available.
+OSS: Pushing child :27638 into blocked queue..
+OSS: Popping a child process pid: 27622 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:118684
+OSS: Total dispatching time in nanoSeconds:744
+OSS: Child :27627 used all the time available.
+OSS: Pushing child :27627 into ready queue..
+OSS: Popping a child process pid: 27622 from queue
+OSS: Dispatching child at second :1 nanoSecond:120428
+OSS: Total dispatching time in nanoSeconds:5808
+OSS: Child :27639 used all the time available.
+OSS: Pushing child :27639 into ready queue..
+OSS: Popping a child process pid: 27627 from queue
+OSS: Dispatching child at second :1 nanoSecond:127236
+OSS: Total dispatching time in nanoSeconds:1196
+OSS: Child :27640 sent termination message using :304 nanoSeconds
+OSS: Popping a child process pid: 27639 from queue
+OSS: Dispatching child at second :1 nanoSecond:128736
+OSS: Total dispatching time in nanoSeconds:106
+OSS: Child :27641 sent termination message using :817 nanoSeconds
+OSS: Popping a child process pid: 27624 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:129659
+OSS: Total dispatching time in nanoSeconds:842
+OSS: Child :27642 used all the time available.
+OSS: Pushing child :27642 into ready queue..
+OSS: Popping a child process pid: 27624 from queue
+OSS: Dispatching child at second :1 nanoSecond:131501
+OSS: Total dispatching time in nanoSeconds:3060
+OSS: Child :27643 didn't use all the time available.
+OSS: Pushing child :27643 into blocked queue..
+OSS: Popping a child process pid: 27642 from queue
+OSS: Dispatching child at second :1 nanoSecond:134588
+OSS: Total dispatching time in nanoSeconds:6892
+OSS: Child :27644 sent termination message using :417 nanoSeconds
+OSS: Popping a child process pid: 27621 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:141897
+OSS: Total dispatching time in nanoSeconds:4337
+OSS: Child :27645 sent termination message using :679 nanoSeconds
+OSS: Popping a child process pid: 27621 from queue
+OSS: Dispatching child at second :1 nanoSecond:146913
+OSS: Total dispatching time in nanoSeconds:6669
+OSS: Child :27646 sent termination message using :679 nanoSeconds
+OSS: Popping a child process pid: 27635 from blocked queue and pushing to ready queue
+OSS: Dispatching child at second :1 nanoSecond:154261
+OSS: Total dispatching time in nanoSeconds:9212
+OSS: Child :27647 sent termination message using :679 nanoSeconds
+OSS: Final clock value in seconds is: 1 : NanoSeconds is : 164152
+child pid :27619 spent: 33692 nanoSeconds on the core with a last burst of: 1000
+child pid :27620 spent: 971 nanoSeconds on the core with a last burst of: 971
+child pid :27621 spent: 599 nanoSeconds on the core with a last burst of: 599
+child pid :27622 spent: 547 nanoSeconds on the core with a last burst of: 547
+child pid :27623 spent: 635 nanoSeconds on the core with a last burst of: 635
+child pid :27624 spent: 858 nanoSeconds on the core with a last burst of: 858
+child pid :27625 spent: 149 nanoSeconds on the core with a last burst of: 149
+child pid :27626 spent: 6 nanoSeconds on the core with a last burst of: 6
+child pid :27627 spent: 1000 nanoSeconds on the core with a last burst of: 1000
+child pid :27628 spent: 1000 nanoSeconds on the core with a last burst of: 1000
+child pid :27629 spent: 911 nanoSeconds on the core with a last burst of: 911
+child pid :27630 spent: 33692 nanoSeconds on the core with a last burst of: 1000
+child pid :27631 spent: 33765 nanoSeconds on the core with a last burst of: 1000
+child pid :27632 spent: 1000 nanoSeconds on the core with a last burst of: 1000
+child pid :27633 spent: 33722 nanoSeconds on the core with a last burst of: 957
+child pid :27634 spent: 1000 nanoSeconds on the core with a last burst of: 1000
+child pid :27635 spent: 33286 nanoSeconds on the core with a last burst of: 594
+child pid :27636 spent: 418 nanoSeconds on the core with a last burst of: 418
+child pid :27637 spent: 194 nanoSeconds on the core with a last burst of: 194
+child pid :27638 spent: 572 nanoSeconds on the core with a last burst of: 572

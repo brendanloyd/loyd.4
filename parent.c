@@ -46,11 +46,6 @@ void forkChildren(int num) {
 
 int main(int argc, char **argv) {
 
-	//Variables for handling Getopt options and loop to run child processes
-	int option, totalChildProcesses = 3, clockIncrement = 1;
-	int childrenRunningAtOneTime = 2;
-        int childProcessCounter;
-
 	//Variables for signal handling
         signal(SIGTERM, terminateSigHandler);
         signal(SIGALRM, timeoutSigHandler);
@@ -69,85 +64,48 @@ int main(int argc, char **argv) {
         int msqid = 0;
         const int key_id = 1234;
 
+        //Setup key for message queue
+        key = ftok("./parent.c",key_id);
+
+        //Setup id for message queue
+        msqid = msgget(key, 0644|IPC_CREAT);
+
 	//random values needed for system times
 	srand(time(NULL));
 
 	//Setup clock
 	sclock clock;
-	clock.seconds = 0;
+	clock.seconds = 1;
 	clock.nanoSeconds = 0;
+
+	//for wait command and geting childpid
+	pid_t wpid;
+        int status = 0;
+	pid_t childPid;
 	
+	//for while loop establishing time to pop from queues, release and keep track of Children	
+        int popAChild = 9000;
+        int releaseChildren = 20000;
+        int pushBlockedChildToReady = 15000;
+	int totalChildren = 0;
+
 	//create file for output
 	FILE *out_file = fopen("schedule.log", "w");
 
-	//Getopt options for program
-	while ((option = getopt(argc, argv, "hn:s:m:")) != -1) {
-                switch (option) {
-                        case 'h' :
-                                printf("To run this program please use the following format:\n");
-                                printf("./oss [-h] [-n] [-s] [-m]\nWhere [-n] [-s] [-m] require arguments.\n");
-				printf("Default process is: [./oss -n 4 -s 2]\n");
-                                return 0;
+	//create process control block variable
+	pcb processControlBlock[20];
 
-                        case 'n' :
-				totalChildProcesses = (atoi(optarg));
-				break;
-
-			case 's' :
-				childrenRunningAtOneTime = (atoi(optarg));
-				if (childrenRunningAtOneTime > 18) {
-				perror("Error: parent.c : Can't be more than 18 child processes running at one time.");
-				exit(-1);
-				}
-				break;
-
-			case 'm' :
-				clockIncrement = (atoi(optarg));
-				break;
-
-                        case '?':
-                                printf("Driver : main : Invalid option.\n");
-                                exit(-1);
-
-                        default :
-                                printf("Driver : main : Invalid argument\n");
-                                return 0;
-                
-		}
-        }
-
-	//Setup key for message queue
-	key = ftok("./parent.c",key_id);
-
-	//Setup id for message queue
-        msqid = msgget(key, 0644|IPC_CREAT);
-
-	/*int segment_id = shmget ( SHMKEY, BUFF_SZ*18, 0777 | IPC_CREAT);
-	if (segment_id == -1) {
-		perror("Error: parent.c : shared memory failed.");
-	}
-
-	pcb processControlBlock[18] = (pcb*)(shmat(segment_id, 0, 0));
-	if (processControlBlock == NULL) {
-		perror("Error: parent.c : shared memory attach failed.");
-	} */
-
-	//For wait command
-	pid_t wpid;
-	int status = 0;
-	int totalChildren = 0;
-	clock.seconds += 1;
+	//start 3 seconds and spawn children
 	time_t endwait = time(NULL) + 3;
 	forkChildren(20);
 	totalChildren += 20;
+
+	//send first message
 	if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
         	perror("msgsnd");
                 exit(1);
         }
-	int popAChild = 9000;
-	int releaseChildren = 20000;
-	int pushBlockedChildToReady = 15000;
-	pid_t childPid;
+	int firstRun = 1;
 	while(time(NULL) < endwait && totalChildren < 100) {
 		if(isNotEmptyReady() && clock.nanoSeconds > popAChild) {
 			childPid = popReady();
@@ -179,6 +137,29 @@ int main(int argc, char **argv) {
 			pushBlocked(childPid);
 			fprintf(out_file, "OSS: Pushing child :%d into blocked queue..\n", childPid);
 		}
+		if(firstRun) {
+			int k;
+			int pid = childPid;
+			for(k = 0; k < 20; k++) {
+				processControlBlock[k].child = pid;
+				pid++;
+			}
+			firstRun = 0;
+		}
+		int u;
+		for(u = 0; u < 20; u++) {
+			int pid = childPid;
+			int childInControlBlock = processControlBlock[u].child;
+			if(pid == childInControlBlock) {
+				if (buf.mint < 0) {
+				processControlBlock[u].totalNanoSeconds += (buf.mint * -1);
+				processControlBlock[u].lastBurst = (buf.mint * -1);
+				} else {
+				processControlBlock[u].totalNanoSeconds += buf.mint;
+                                processControlBlock[u].lastBurst = buf.mint;
+				}	
+			}
+		}
 		
 		incrementClock(&clock, buf.mint);
                 if (msgsnd(msqid, &buf, sizeof(buf), 0) == -1) {
@@ -195,6 +176,10 @@ int main(int argc, char **argv) {
 	while ((wpid = wait(&status)) > 0);
 	fprintf(out_file, "OSS: Final clock value in seconds is: %d : NanoSeconds is : %d\n", clock.seconds, clock.nanoSeconds);	
 	
+	int k;
+	for(k = 0; k < 20; k++) {
+		fprintf(out_file, "child pid :%d spent: %d nanoSeconds on the core with a last burst of: %d\n", processControlBlock[k].child,processControlBlock[k].totalNanoSeconds,processControlBlock[k].lastBurst);
+	}
 	//detach message queue memory	
 	if (msgctl(msqid, IPC_RMID, NULL) == -1) {
       		perror("msgctl");
